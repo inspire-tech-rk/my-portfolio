@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import axios from "axios";
 import {
   FaUserCircle,
@@ -19,28 +20,31 @@ export default function ContactForm() {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  const API_URL = import.meta.env.VITE_API_URL;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      await axios.post("http://localhost:5000/api/contact", form);
+    const res = await axios.post(`${API_URL}/api/contact`, form);
 
-      alert("Message sent successfully");
+    alert(res.data.message || "Message sent successfully");
 
-      setForm({
-        fullName: "",
-        email: "",
-        message: "",
-      });
-    } catch {
-      alert("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
+    setForm({
+      fullName: "",
+      email: "",
+      message: "",
+    });
+  } catch (error) {
+    console.log("Contact error:", error);
+    console.log("Response:", error.response?.data);
+    alert(error.response?.data?.message || "Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
    <form
