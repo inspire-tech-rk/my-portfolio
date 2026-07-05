@@ -17,39 +17,41 @@ export default function ContactForm() {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/contact`,
-      form
-    );
+      await axios.post("http://localhost:5000/api/contact", form);
 
-    alert("Message sent successfully");
+      alert("Message sent successfully");
 
-    setForm({
-      fullName: "",
-      email: "",
-      message: "",
-    });
-  } catch (error) {
-    console.log("Contact form error:", error);
-    alert("Something went wrong");
-  } finally {
-    setLoading(false);
-  }
-};
+      setForm({
+        fullName: "",
+        email: "",
+        message: "",
+      });
+    } catch {
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
-      <label className="font-semibold text-white flex items-center gap-2 mb-2">
-        <FaUserCircle className="text-blue-400" />
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-8 max-w-2xl mx-auto"
+    >
+      <label className="font-bold flex items-center gap-2 mb-2">
+        <FaUserCircle className="text-blue-600" />
         Full Name
       </label>
 
@@ -60,11 +62,11 @@ const handleSubmit = async (e) => {
         onChange={handleChange}
         placeholder="Enter your full name"
         required
-        className="w-full mb-6 px-5 py-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+        className="w-full mb-6 px-5 py-4 rounded-full border shadow focus:outline-blue-500"
       />
 
-      <label className="font-semibold text-white flex items-center gap-2 mb-2">
-        <FaEnvelope className="text-blue-400" />
+      <label className="font-bold flex items-center gap-2 mb-2">
+        <FaEnvelope className="text-blue-600" />
         Email Address
       </label>
 
@@ -75,11 +77,11 @@ const handleSubmit = async (e) => {
         onChange={handleChange}
         placeholder="Enter your email address"
         required
-        className="w-full mb-6 px-5 py-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+        className="w-full mb-6 px-5 py-4 rounded-full border shadow focus:outline-blue-500"
       />
 
-      <label className="font-semibold text-white flex items-center gap-2 mb-2">
-        <FaCommentDots className="text-blue-400" />
+      <label className="font-bold flex items-center gap-2 mb-2">
+        <FaCommentDots className="text-blue-600" />
         Your Message
       </label>
 
@@ -90,13 +92,13 @@ const handleSubmit = async (e) => {
         placeholder="Write your message..."
         required
         rows="5"
-        className="w-full mb-6 px-5 py-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+        className="w-full mb-6 px-5 py-4 rounded-2xl border shadow focus:outline-blue-500"
       />
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-4 rounded-2xl text-white font-bold text-lg bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 hover:scale-105 duration-300 flex items-center justify-center gap-3 shadow-lg"
+        className="w-full py-4 rounded-full text-white font-bold text-lg sm:text-xl bg-gradient-to-r from-blue-600 to-purple-700 hover:scale-105 transition flex items-center justify-center gap-3"
       >
         <FaPaperPlane />
         {loading ? "Sending..." : "Send Message"}
