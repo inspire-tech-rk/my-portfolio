@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { API_URL } from "../config";
 import axios from "axios";
 import {
   FaUserCircle,
@@ -27,7 +26,7 @@ export default function ContactForm() {
     try {
       setLoading(true);
 
-await axios.post(`${API_URL}/api/contact`, form);
+      await axios.post("http://localhost:5000/api/contact", form);
 
       alert("Message sent successfully");
 
@@ -36,21 +35,18 @@ await axios.post(`${API_URL}/api/contact`, form);
         email: "",
         message: "",
       });
-    } catch (error) {
-      console.error(error);
-
-      alert(
-        error.response?.data?.message ||
-          error.message ||
-          "Something went wrong",
-      );
+    } catch {
+      alert("Something went wrong");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
+   <form
+  onSubmit={handleSubmit}
+  className="w-full"
+>
       <label className="font-semibold text-white flex items-center gap-2 mb-2">
         <FaUserCircle className="text-blue-400" />
         Full Name
