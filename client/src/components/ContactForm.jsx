@@ -27,7 +27,9 @@ export default function ContactForm() {
     try {
       setLoading(true);
 
-      await axios.post(`${API_URL}/api/contact`, form);
+   await axios.post(`${API_URL}/api/contact`, form, {
+  timeout: 30000,
+});
 
       alert("Message sent successfully");
 

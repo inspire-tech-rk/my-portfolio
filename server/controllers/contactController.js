@@ -12,36 +12,35 @@ export const createContactMessage = async (req, res, next) => {
       });
     }
 
-    // Save in MongoDB
     const contact = await Contact.create({
       fullName,
       email,
       message,
     });
 
-    // Nodemailer setup
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
     });
 
-    // Send Email
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
       to: process.env.RECEIVER_EMAIL,
-      subject: `New Portfolio Contact Message from ${fullName}`,
+      replyTo: email,
+      subject: `New Portfolio Message from ${fullName}`,
       html: `
         <h2>New Contact Form Submission</h2>
-
-        <p><strong>Name:</strong> ${fullName}</p>
-
-        <p><strong>Email:</strong> ${email}</p>
-
-        <p><strong>Message:</strong></p>
-
+        <p><b>Name:</b> ${fullName}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Message:</b></p>
         <p>${message}</p>
       `,
     });
@@ -52,6 +51,7 @@ export const createContactMessage = async (req, res, next) => {
       contact,
     });
   } catch (error) {
+    console.log("Contact error:", error.message);
     next(error);
   }
 };
