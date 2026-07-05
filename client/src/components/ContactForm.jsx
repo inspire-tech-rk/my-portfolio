@@ -20,33 +20,34 @@ export default function ContactForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      await axios.post("http://localhost:5000/api/contact", form);
+    await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/contact`,
+      form
+    );
 
-      alert("Message sent successfully");
+    alert("Message sent successfully");
 
-      setForm({
-        fullName: "",
-        email: "",
-        message: "",
-      });
-    } catch {
-      alert("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
+    setForm({
+      fullName: "",
+      email: "",
+      message: "",
+    });
+  } catch (error) {
+    console.log("Contact form error:", error);
+    alert("Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
-   <form
-  onSubmit={handleSubmit}
-  className="w-full"
->
+    <form onSubmit={handleSubmit} className="w-full">
       <label className="font-semibold text-white flex items-center gap-2 mb-2">
         <FaUserCircle className="text-blue-400" />
         Full Name
