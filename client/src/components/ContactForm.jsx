@@ -1,7 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import { API_URL } from "../config";
-
 import {
   FaUserCircle,
   FaEnvelope,
@@ -28,7 +26,7 @@ export default function ContactForm() {
     try {
       setLoading(true);
 
-      await axios.post(`${API_URL}/api/contact`, form);
+      await axios.post("http://localhost:5000/api/contact", form);
 
       alert("Message sent successfully");
 
@@ -37,9 +35,8 @@ export default function ContactForm() {
         email: "",
         message: "",
       });
-    } catch (error) {
-      console.error("Contact form error:", error);
-      alert(error.response?.data?.message || "Something went wrong");
+    } catch {
+      alert("Something went wrong");
     } finally {
       setLoading(false);
     }
