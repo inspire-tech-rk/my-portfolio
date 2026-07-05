@@ -17,10 +17,7 @@ export default function ContactForm() {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -46,12 +43,12 @@ export default function ContactForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-8 max-w-2xl mx-auto"
-    >
-      <label className="font-bold flex items-center gap-2 mb-2">
-        <FaUserCircle className="text-blue-600" />
+   <form
+  onSubmit={handleSubmit}
+  className="w-full"
+>
+      <label className="font-semibold text-white flex items-center gap-2 mb-2">
+        <FaUserCircle className="text-blue-400" />
         Full Name
       </label>
 
@@ -62,11 +59,11 @@ export default function ContactForm() {
         onChange={handleChange}
         placeholder="Enter your full name"
         required
-        className="w-full mb-6 px-5 py-4 rounded-full border shadow focus:outline-blue-500"
+        className="w-full mb-6 px-5 py-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
       />
 
-      <label className="font-bold flex items-center gap-2 mb-2">
-        <FaEnvelope className="text-blue-600" />
+      <label className="font-semibold text-white flex items-center gap-2 mb-2">
+        <FaEnvelope className="text-blue-400" />
         Email Address
       </label>
 
@@ -77,11 +74,11 @@ export default function ContactForm() {
         onChange={handleChange}
         placeholder="Enter your email address"
         required
-        className="w-full mb-6 px-5 py-4 rounded-full border shadow focus:outline-blue-500"
+        className="w-full mb-6 px-5 py-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
       />
 
-      <label className="font-bold flex items-center gap-2 mb-2">
-        <FaCommentDots className="text-blue-600" />
+      <label className="font-semibold text-white flex items-center gap-2 mb-2">
+        <FaCommentDots className="text-blue-400" />
         Your Message
       </label>
 
@@ -92,13 +89,13 @@ export default function ContactForm() {
         placeholder="Write your message..."
         required
         rows="5"
-        className="w-full mb-6 px-5 py-4 rounded-2xl border shadow focus:outline-blue-500"
+        className="w-full mb-6 px-5 py-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
       />
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-4 rounded-full text-white font-bold text-lg sm:text-xl bg-gradient-to-r from-blue-600 to-purple-700 hover:scale-105 transition flex items-center justify-center gap-3"
+        className="w-full py-4 rounded-2xl text-white font-bold text-lg bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600 hover:scale-105 duration-300 flex items-center justify-center gap-3 shadow-lg"
       >
         <FaPaperPlane />
         {loading ? "Sending..." : "Send Message"}
