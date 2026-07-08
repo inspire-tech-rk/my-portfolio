@@ -1,7 +1,9 @@
 import Contact from "../models/Contact.js";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-export const createContactMessage = async (req, res, next) => {
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export const createContactMessage = async (req, res) => {
   try {
     const { fullName, email, message } = req.body;
 
@@ -12,32 +14,10 @@ export const createContactMessage = async (req, res, next) => {
       });
     }
 
-    const contact = await Contact.create({
-      fullName,
-      email,
-      message,
-    });
+    const contact = await Contact.create({ fullName, email, message });
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      family: 4,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-      tls: {
-        servername: "smtp.gmail.com",
-        rejectUnauthorized: false,
-      },
-      connectionTimeout: 20000,
-      greetingTimeout: 20000,
-      socketTimeout: 20000,
-    });
-
-    await transporter.sendMail({
-      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
+    await resend.emails.send({
+      from: "Portfolio Contact <onboarding@resend.dev>",
       to: process.env.RECEIVER_EMAIL,
       replyTo: email,
       subject: `New Portfolio Contact Message from ${fullName}`,
@@ -56,11 +36,11 @@ export const createContactMessage = async (req, res, next) => {
       contact,
     });
   } catch (error) {
-    console.log("Contact controller error:", error.message);
+    console.log("Contact controller error:", error);
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: error.message || "Email sending failed",
     });
   }
 };
