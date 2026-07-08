@@ -22,13 +22,18 @@ export const createContactMessage = async (req, res, next) => {
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
+      family: 4,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
       tls: {
+        servername: "smtp.gmail.com",
         rejectUnauthorized: false,
       },
+      connectionTimeout: 20000,
+      greetingTimeout: 20000,
+      socketTimeout: 20000,
     });
 
     await transporter.sendMail({
